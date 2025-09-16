@@ -5,7 +5,7 @@ public class BankAccount {
     private final String surname;
     private final String password;
     private final String phone_num;
-    private Scanner scanner = new Scanner(System.in);
+
 
     //constructor
     public BankAccount(String name, String surname, String Phone_number, String password) {
@@ -33,7 +33,7 @@ public class BankAccount {
     }
 
     //deposit
-    public void deposit() {
+    public void deposit(Scanner scanner) {
         double amount = BankAccount.getValidAmount(scanner);
         if (amount < 0 ) {
             System.out.println("Operation failed. Input must be a positive value");
@@ -44,9 +44,12 @@ public class BankAccount {
 
 
     }
+    public String getPhone_num() {
+        return phone_num;
+    }
 
     //withdrawal
-    public void withdraw() {
+    public void withdraw(Scanner scanner) {
         double amount = BankAccount.getValidAmount(scanner);
             if (amount > balance) {
                 System.out.println("Operation failed. Please make sure you have enough money on your balance.");
@@ -67,7 +70,7 @@ public class BankAccount {
         return true;
     }
 
-    public boolean SubstrateBalance(double amount) {
+    public boolean SubtractBalance(double amount) {
         if (amount < 0 || amount > this.balance) {
             return false;
         }
@@ -80,17 +83,5 @@ public class BankAccount {
     public double getBalance() {
         return balance;
     }
-
-    private void menu() {
-        System.out.println("\n=== BANK MENU ===");
-        System.out.println("1. Deposit");
-        System.out.println("2. Withdraw");
-        System.out.println("3. Check Balance");
-        System.out.println("4. View Info");
-        System.out.println("5. Logout");
-        System.out.print("> ");
-    }
-
-
 
 }

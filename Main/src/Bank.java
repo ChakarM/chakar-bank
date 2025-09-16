@@ -6,6 +6,15 @@ public class Bank {
      private HashMap<String, BankAccount> CreatedAccounts;
      private Scanner scanner = new Scanner(System.in);
 
+     public Bank() {
+          LoginData = new HashMap<>();
+          CreatedAccounts = new HashMap<>();
+          scanner = new Scanner(System.in);
+     }
+     public BankAccount  getAccount(String phoneNum) {
+          return  CreatedAccounts.get(phoneNum);
+     }
+
      public void register(String name, String surname, String phoneNum, String password) {
           password = getHashedPassword(password);
           BankAccount account = new BankAccount(name, surname, phoneNum, password);
@@ -30,20 +39,20 @@ public class Bank {
           return Integer.toString(password.hashCode() * 31 + 12345);
      }
 
-     public boolean transact(String senderPhone, String receiverPhone) {
+     public void transact(String senderPhone, String receiverPhone) {
           if (!CreatedAccounts.containsKey(senderPhone) || !CreatedAccounts.containsKey(receiverPhone)) {
                System.out.println("One or both accounts not found");
-               return false;
+               return;
           }
           BankAccount sender = CreatedAccounts.get(senderPhone);
           BankAccount receiver = CreatedAccounts.get(receiverPhone);
 
           double amount = BankAccount.getValidAmount(this.scanner);
 
-          if (sender.SubstrateBalance(amount)) {
+          if (sender.SubtractBalance(amount)) {
                if (receiver.addBalance(amount)) {
                     System.out.println("Transfer successful!");
-                    return true;
+
                } else {
                     sender.addBalance(amount); // Rollback
                     System.out.println("Transfer failed: invalid amount for receiver");
@@ -51,7 +60,6 @@ public class Bank {
           } else {
                System.out.println("Transfer failed: insufficient funds or invalid amount");
           }
-          return false;
      }
 
 
